@@ -2,11 +2,56 @@
 
 import { useEffect, useState } from "react"
 
+async function getData() {
+  try {
+    const res = await fetch('https://api-chat-santa.fun-apps.net/listSanta');
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
 export default function Chat() {
-  const [conversation, setConversation] = useState({})
+  const [conversation, setConversation] = useState<any>([])
+
   const host = "https://api-chat-santa.fun-apps.net/conversationv2"
+  let params: any = {
+    id: "8eb93d93-5bf5-490d-8a9d-102b2a415a16"
+  }
+
+  const init = {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json;charset=UTF-8',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+      "Access-Control-Allow-Headers": "Content-Type"
+    },
+    body: JSON.stringify(params),
+  };
+  
+  // await fetch(host, init).then((response) => response.text()).then((responseText) => console.log(responseText));
+
+
   useEffect(() => {
-    
+    const fetchData = async () => {
+      const posts = await fetch(host, init);
+      const res = await posts.json()
+      console.log(res);
+    };
+
+    fetchData();
   }, [conversation])
   return (
     <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
