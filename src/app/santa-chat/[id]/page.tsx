@@ -1,5 +1,6 @@
 'use client'
 
+import { Calligraffitti } from "next/font/google";
 import { useEffect, useState } from "react"
 
 async function getData() {
@@ -24,6 +25,7 @@ const headers = {
 
 export default function Chat() {
   const [conversation, setConversation] = useState<any>([])
+  const [newMessageStatus, setNewMessageStatus] = useState(true)
 
   const host = "https://api-chat-santa.fun-apps.net/conversationv2"
   let params: any = {
@@ -47,12 +49,18 @@ export default function Chat() {
   useEffect(() => {
     const fetchData = async () => {
       const posts = await fetch(host, init);
-      const res = await posts.json()
-      console.log(res);
+      const resText = await posts.text()
+      console.log(resText)
+      setConversation([{ role: "assistant", content: resText }])
     };
 
-    fetchData();
-  }, [conversation])
+    fetchData()
+  }, [newMessageStatus])
+
+  useEffect(() => {
+    console.log(conversation);
+  }, [conversation]);
+
   return (
     <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
     <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
