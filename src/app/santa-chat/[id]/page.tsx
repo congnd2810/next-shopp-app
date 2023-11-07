@@ -29,14 +29,11 @@ export default function Chat({ params }: { params: { id: string } }) {
   let paramsRequest: any = {
     id: params.id
   }
-  // await fetch(host, init).then((response) => response.text()).then((responseText) => console.log(responseText));
-
 
   useEffect(() => {
 
     if (conversation.length > 0) paramsRequest["prompt"] = conversation
 
-    console.log(paramsRequest)
     let init = {
       method: 'POST',
       headers: {
