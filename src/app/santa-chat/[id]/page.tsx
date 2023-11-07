@@ -162,3 +162,5 @@ export default function Chat({ params }: { params: { id: string } }) {
   </div>
   )
 }
+
+export const runtime = 'edge' // 'nodejs' (default) | 'edge'
